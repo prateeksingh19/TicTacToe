@@ -1,9 +1,9 @@
-import User from "@/components/user";
+import Game from "@/components/game";
 
 export default function Home() {
   return (
     <div>
-      <User />
+      <Game />
     </div>
   );
 }
