@@ -5,8 +5,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function User() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
   const router = useRouter();
+
+  async function handleStartGame() {
+    try {
+      const response = await axios.post("/api", { name });
+      const { id } = response.data;
+      router.push(`/game?id=${id}`);
+    } catch (error) {
+      console.error("Error starting game:", error);
+    }
+  }
 
   return (
     <div className="">
@@ -21,14 +31,7 @@ export default function User() {
         />
       </div>
       <div>
-        <button
-          onClick={() => {
-            axios.post("/", name);
-            router.push("/game");
-          }}
-        >
-          Start Game
-        </button>
+        <button onClick={handleStartGame}>Start Game</button>
       </div>
     </div>
   );

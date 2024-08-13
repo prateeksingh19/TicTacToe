@@ -1,14 +1,57 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Square from "./square";
+import { useSearchParams } from "next/navigation";
 
 export default function Board() {
   const [board, setBoard] = useState<string[]>(Array(9).fill(null));
   const [xTurn, setXTurn] = useState(true);
   const [playAI, setPlayAI] = useState(true);
+  const [gameStats, setGameStats] = useState({
+    win: 0,
+    loss: 0,
+    draw: 0,
+  });
+  const [gameOutcome, setGameOutcome] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("id");
+
+  useEffect(() => {
+    if (userId) {
+      axios
+        .get(`/api?id=${userId}`)
+        .then((response) => {
+          const user = response.data[0];
+          setGameStats({
+            win: user.win || 0,
+            loss: user.loss || 0,
+            draw: user.draw || 0,
+          });
+        })
+        .catch((error) => console.error("Error fetching user stats:", error));
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (gameOutcome && userId) {
+      const updatedStats = {
+        ...gameStats,
+      };
+
+      axios
+        .put(`/api?id=${userId}`, updatedStats)
+        .then()
+        .catch((error) => console.error("Error updating user:", error));
+    }
+  }, [gameOutcome, userId]);
+
   const winner = calculateWinner(board);
+  const isDraw = !winner && board.every((value) => value !== null);
   const status = winner
     ? `Winner: ${winner}`
+    : isDraw
+    ? "Draw"
     : `Next player: ${xTurn ? "X" : "O"}`;
 
   function handlePlayerMove(index: number) {
@@ -41,7 +84,12 @@ export default function Board() {
     newBoard[randomIndex] = "O";
 
     setBoard(newBoard);
-    setXTurn(true);
+
+    if (calculateWinner(newBoard) === "O") {
+      return;
+    } else {
+      setXTurn(true);
+    }
   }
 
   function calculateWinner(board: string[]) {
@@ -65,6 +113,31 @@ export default function Board() {
     }
     return null;
   }
+
+  useEffect(() => {
+    if (winner) {
+      if (winner === "X") {
+        setGameOutcome("win");
+        setGameStats((prevStats) => ({
+          ...prevStats,
+          win: prevStats.win + 1,
+        }));
+      } else if (winner === "O") {
+        setGameOutcome("loss");
+        setGameStats((prevStats) => ({
+          ...prevStats,
+          loss: prevStats.loss + 1,
+        }));
+      }
+    } else if (isDraw) {
+      setGameOutcome("draw");
+      setGameStats((prevStats) => ({
+        ...prevStats,
+        draw: prevStats.draw + 1,
+      }));
+    }
+  }, [winner, isDraw]);
+
   return (
     <div className="w-80">
       <div className="m-4 flex justify-center">
@@ -100,6 +173,7 @@ export default function Board() {
             setXTurn(true);
             setPlayAI(true);
             setBoard(Array(9).fill(null));
+            setGameOutcome(null);
           }}
         >
           Reset
