@@ -1,30 +1,10 @@
-"use client";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { User } from "@/app/game/page";
 
-type User = {
-  id: number;
-  name: string;
-  win: number;
-  loss: number;
-  draw: number;
+type LeaderboardProps = {
+  users: User[];
 };
 
-export default function Leaderboard() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    axios
-      .get<User[]>("/api")
-      .then((response) => {
-        const sortedUsers = response.data.sort(
-          (a: User, b: User) => b.win - a.win
-        );
-        setUsers(sortedUsers);
-      })
-      .catch((error) => console.error("Error fetching user data:", error));
-  }, []);
-
+export default function Leaderboard({ users }: LeaderboardProps) {
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">Leaderboard</h1>

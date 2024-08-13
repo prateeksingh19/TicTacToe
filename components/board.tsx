@@ -1,29 +1,28 @@
-"use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import Square from "./square";
 import { useSearchParams } from "next/navigation";
+import getUserData from "@/app/lib/actions/getUserData";
+import updateUserStats from "@/app/lib/actions/updateUserData";
+import { winningLogic, playerMove } from "./gameLogic";
+import Square from "./square";
 
-export default function Board() {
+type BoardProps = {
+  onReset: () => void;
+};
+
+export default function Board({ onReset }: BoardProps) {
   const [board, setBoard] = useState<string[]>(Array(9).fill(null));
   const [xTurn, setXTurn] = useState(true);
   const [playAI, setPlayAI] = useState(true);
   const [lock, setLock] = useState(false);
-  const [gameStats, setGameStats] = useState({
-    win: 0,
-    loss: 0,
-    draw: 0,
-  });
+  const [gameStats, setGameStats] = useState({ win: 0, loss: 0, draw: 0 });
   const [gameOutcome, setGameOutcome] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const userId = searchParams.get("id");
 
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`/api?id=${userId}`)
-        .then((response) => {
-          const user = response.data[0];
+      getUserData(userId)
+        .then((user) => {
           setGameStats({
             win: user.win || 0,
             loss: user.loss || 0,
@@ -36,88 +35,22 @@ export default function Board() {
 
   useEffect(() => {
     if (gameOutcome && userId) {
-      const updatedStats = {
-        ...gameStats,
-      };
-
-      axios
-        .put(`/api?id=${userId}`, updatedStats)
-        .then()
+      const updatedStats = { ...gameStats };
+      updateUserStats(userId, updatedStats)
+        .then(() => {
+          onReset(); // Trigger leaderboard data reload after update
+        })
         .catch((error) => console.error("Error updating user:", error));
     }
   }, [gameOutcome, userId]);
 
-  const winner = calculateWinner(board);
+  const winner = winningLogic(board);
   const isDraw = !winner && board.every((value) => value !== null);
   const status = winner
     ? `Winner: ${winner}`
     : isDraw
     ? "Draw"
     : `Next player: ${xTurn ? "X" : "O"}`;
-
-  function handlePlayerMove(index: number) {
-    if (!lock) {
-      setLock(true);
-      if (board[index] || winner) return;
-
-      const currentBoard = [...board];
-      currentBoard[index] = xTurn ? "X" : "O";
-
-      setBoard(currentBoard);
-      setXTurn((prevXTurn) => {
-        const nextXTurn = !prevXTurn;
-        if (!nextXTurn && playAI) {
-          setTimeout(() => randomAIMove(currentBoard), 500);
-        }
-        return nextXTurn;
-      });
-    }
-  }
-
-  function randomAIMove(currentBoard: string[]) {
-    const squaresLeft = currentBoard
-      .map((value, index) => (value === null ? index : null))
-      .filter((index) => index !== null) as number[];
-
-    if (squaresLeft.length === 0 || calculateWinner(currentBoard)) return;
-
-    const randomIndex =
-      squaresLeft[Math.floor(Math.random() * squaresLeft.length)];
-
-    const newBoard = [...currentBoard];
-    newBoard[randomIndex] = "O";
-
-    setBoard(newBoard);
-
-    if (calculateWinner(newBoard) === "O") {
-      return;
-    } else {
-      setLock(false);
-      setXTurn(true);
-    }
-  }
-
-  function calculateWinner(board: string[]) {
-    const winningLines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    for (let lines of winningLines) {
-      const [a, b, c] = lines;
-
-      if (board[a] !== null && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
-      }
-    }
-    return null;
-  }
 
   useEffect(() => {
     if (winner) {
@@ -154,9 +87,7 @@ export default function Board() {
         <div className="m-4 flex justify-center">
           <button
             className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300"
-            onClick={() => {
-              setPlayAI(false);
-            }}
+            onClick={() => setPlayAI(false)}
           >
             Play without AI
           </button>
@@ -167,7 +98,19 @@ export default function Board() {
           <Square
             key={index}
             value={value}
-            onClick={() => handlePlayerMove(index)}
+            onClick={() =>
+              !lock &&
+              playerMove(
+                index,
+                board,
+                xTurn,
+                winner,
+                setBoard,
+                setXTurn,
+                setLock,
+                playAI
+              )
+            }
           />
         ))}
       </div>
@@ -180,6 +123,7 @@ export default function Board() {
             setBoard(Array(9).fill(null));
             setGameOutcome(null);
             setLock(false);
+            onReset(); // Call onReset when the Reset button is pressed
           }}
         >
           Reset
