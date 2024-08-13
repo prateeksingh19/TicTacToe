@@ -4,6 +4,7 @@ import getUserData from "@/app/lib/actions/getUserData";
 import updateUserStats from "@/app/lib/actions/updateUserData";
 import { winningLogic, playerMove } from "./gameLogic";
 import Square from "./square";
+import Congratulations from "./congratulation";
 
 type BoardProps = {
   onReset: () => void;
@@ -93,26 +94,39 @@ export default function Board({ onReset }: BoardProps) {
           </button>
         </div>
       )}
-      <div className="grid grid-cols-3">
-        {board.map((value, index) => (
-          <Square
-            key={index}
-            value={value}
-            onClick={() =>
-              !lock &&
-              playerMove(
-                index,
-                board,
-                xTurn,
-                winner,
-                setBoard,
-                setXTurn,
-                setLock,
-                playAI
-              )
+      <div className="relative">
+        <div className="grid grid-cols-3">
+          {board.map((value, index) => (
+            <Square
+              key={index}
+              value={value}
+              onClick={() =>
+                !lock &&
+                playerMove(
+                  index,
+                  board,
+                  xTurn,
+                  winner,
+                  setBoard,
+                  setXTurn,
+                  setLock,
+                  playAI
+                )
+              }
+            />
+          ))}
+        </div>
+        {gameOutcome && (
+          <Congratulations
+            message={
+              gameOutcome === "win"
+                ? "Congratulations, you won!"
+                : gameOutcome === "loss"
+                ? "Sorry, you lost!"
+                : "It's a draw!"
             }
           />
-        ))}
+        )}
       </div>
       <div className="m-4 flex justify-center">
         <button
