@@ -2,14 +2,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+type User = {
+  id: number;
+  name: string;
+  win: number;
+  loss: number;
+  draw: number;
+};
+
 export default function Leaderboard() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     axios
-      .get("/api")
+      .get<User[]>("/api")
       .then((response) => {
-        const sortedUsers = response.data.sort((a, b) => b.win - a.win);
+        const sortedUsers = response.data.sort(
+          (a: User, b: User) => b.win - a.win
+        );
         setUsers(sortedUsers);
       })
       .catch((error) => console.error("Error fetching user data:", error));
