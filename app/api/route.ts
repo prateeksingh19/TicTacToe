@@ -6,7 +6,10 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const userId = url.searchParams.get("id");
   try {
-    const users = await db.all("SELECT * FROM users WHERE id = ?", [userId]);
+    const users = await db.all(
+      "SELECT * FROM users WHERE id = COALESCE(?, id)",
+      [userId]
+    );
     return NextResponse.json(users);
   } catch (error) {
     return NextResponse.error();

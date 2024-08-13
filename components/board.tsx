@@ -8,6 +8,7 @@ export default function Board() {
   const [board, setBoard] = useState<string[]>(Array(9).fill(null));
   const [xTurn, setXTurn] = useState(true);
   const [playAI, setPlayAI] = useState(true);
+  const [lock, setLock] = useState(false);
   const [gameStats, setGameStats] = useState({
     win: 0,
     loss: 0,
@@ -55,19 +56,22 @@ export default function Board() {
     : `Next player: ${xTurn ? "X" : "O"}`;
 
   function handlePlayerMove(index: number) {
-    if (board[index] || winner) return;
+    if (!lock) {
+      setLock(true);
+      if (board[index] || winner) return;
 
-    const currentBoard = [...board];
-    currentBoard[index] = xTurn ? "X" : "O";
+      const currentBoard = [...board];
+      currentBoard[index] = xTurn ? "X" : "O";
 
-    setBoard(currentBoard);
-    setXTurn((prevXTurn) => {
-      const nextXTurn = !prevXTurn;
-      if (!nextXTurn && playAI) {
-        setTimeout(() => randomAIMove(currentBoard), 500);
-      }
-      return nextXTurn;
-    });
+      setBoard(currentBoard);
+      setXTurn((prevXTurn) => {
+        const nextXTurn = !prevXTurn;
+        if (!nextXTurn && playAI) {
+          setTimeout(() => randomAIMove(currentBoard), 500);
+        }
+        return nextXTurn;
+      });
+    }
   }
 
   function randomAIMove(currentBoard: string[]) {
@@ -88,6 +92,7 @@ export default function Board() {
     if (calculateWinner(newBoard) === "O") {
       return;
     } else {
+      setLock(false);
       setXTurn(true);
     }
   }
