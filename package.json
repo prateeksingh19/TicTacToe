@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "npx ts-node setupDatabase.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx ts-node setupDatabase.mjs && next build",
     "start": "next start",
     "lint": "next lint"
   },

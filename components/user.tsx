@@ -19,8 +19,8 @@ export default function User() {
   }
 
   return (
-    <div className="bg-[#F7EFE5] h-screen">
-      <div className="flex flex-col h-screen justify-center items-center">
+    <div className="flex flex-col justify-center items-center bg-[#F7EFE5]">
+      <div className="">
         <div className="m-4">Enter your name</div>
         <input
           className="p-2 rounded-lg"
