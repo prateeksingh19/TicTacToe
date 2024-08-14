@@ -79,6 +79,19 @@ export default function Board({ onReset }: BoardProps) {
 
   return (
     <div className="">
+      <div className="m-4">
+        {gameOutcome && (
+          <Congratulations
+            message={
+              gameOutcome === "win"
+                ? "Congratulations, you won!"
+                : gameOutcome === "loss"
+                ? "Sorry, you lost!"
+                : "It's a draw!"
+            }
+          />
+        )}
+      </div>
       <div className="m-4 flex justify-center">
         <div className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300">
           {status}
@@ -116,17 +129,6 @@ export default function Board({ onReset }: BoardProps) {
             />
           ))}
         </div>
-        {gameOutcome && (
-          <Congratulations
-            message={
-              gameOutcome === "win"
-                ? "Congratulations, you won!"
-                : gameOutcome === "loss"
-                ? "Sorry, you lost!"
-                : "It's a draw!"
-            }
-          />
-        )}
       </div>
       <div className="m-4 flex justify-center">
         <button

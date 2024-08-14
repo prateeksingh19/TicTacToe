@@ -19,10 +19,7 @@ const Congratulations: React.FC<{ message: string }> = ({ message }) => {
         textAlign: "center",
         fontSize: "1.5rem",
         borderRadius: "10px",
-        position: "absolute",
-        top: "-55%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(0%, 0%)",
       }}
     >
       {message}
