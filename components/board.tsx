@@ -39,7 +39,7 @@ export default function Board({ onReset }: BoardProps) {
       const updatedStats = { ...gameStats };
       updateUserStats(userId, updatedStats)
         .then(() => {
-          onReset(); // Trigger leaderboard data reload after update
+          onReset();
         })
         .catch((error) => console.error("Error updating user:", error));
     }
@@ -78,7 +78,7 @@ export default function Board({ onReset }: BoardProps) {
   }, [winner, isDraw]);
 
   return (
-    <div className="w-80">
+    <div className="">
       <div className="m-4 flex justify-center">
         <div className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300">
           {status}
@@ -137,7 +137,7 @@ export default function Board({ onReset }: BoardProps) {
             setBoard(Array(9).fill(null));
             setGameOutcome(null);
             setLock(false);
-            onReset(); // Call onReset when the Reset button is pressed
+            onReset();
           }}
         >
           Reset

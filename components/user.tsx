@@ -19,9 +19,12 @@ export default function User() {
   }
 
   return (
-    <div className="">
-      <div>
+    <div className="bg-[#F7EFE5] h-screen">
+      <div className="flex flex-col h-screen justify-center items-center">
+        <div className="m-4">Enter your name</div>
         <input
+          className="p-2 rounded-lg"
+          placeholder="John"
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -29,9 +32,14 @@ export default function User() {
           name=""
           id=""
         />
-      </div>
-      <div>
-        <button onClick={handleStartGame}>Start Game</button>
+        <div className="m-4">
+          <button
+            className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300"
+            onClick={handleStartGame}
+          >
+            Start Game
+          </button>
+        </div>
       </div>
     </div>
   );

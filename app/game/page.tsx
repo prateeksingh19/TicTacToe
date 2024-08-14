@@ -12,7 +12,7 @@ export type User = {
   draw: number;
 };
 
-export default function GameContainer() {
+export default function Game() {
   const [users, setUsers] = useState<User[]>([]);
 
   const fetchLeaderboardData = () => {
@@ -32,7 +32,7 @@ export default function GameContainer() {
   }, []);
 
   return (
-    <div className="flex flex-col h-fit md:h-screen gap-y-4 lg:gap-x-4 items-center lg:flex-row justify-center">
+    <div className="flex flex-col h-fit md:h-screen gap-y-4 lg:gap-x-4 items-center lg:flex-row justify-center bg-[#F7EFE5]">
       <Suspense fallback={<div>Loading...</div>}>
         <Board onReset={fetchLeaderboardData} />
       </Suspense>
