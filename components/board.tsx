@@ -81,9 +81,9 @@ export default function Board({ onReset }: BoardProps) {
   }, [winner, isDraw]);
 
   return (
-    <div className="">
-      <div className="m-4">
-        {gameOutcome && (
+    <div className="mt-8">
+      {gameOutcome && (
+        <div className="mb-4 mt-2">
           <Congratulations
             message={
               gameOutcome === "win"
@@ -93,17 +93,17 @@ export default function Board({ onReset }: BoardProps) {
                 : "It's a draw!"
             }
           />
-        )}
-      </div>
-      <div className="m-4 flex justify-center">
-        <div className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300">
+        </div>
+      )}
+      <div className="flex justify-center">
+        <div className="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 w-full m-2 text-center">
           {status}
         </div>
       </div>
       {playAI && (
-        <div className="m-4 flex justify-center">
+        <div className="m-2 flex justify-center">
           <button
-            className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300"
+            className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 w-full"
             onClick={() => setPlayAI(false)}
           >
             Play without AI
@@ -133,9 +133,9 @@ export default function Board({ onReset }: BoardProps) {
           ))}
         </div>
       </div>
-      <div className="m-4 flex justify-center">
+      <div className="m-2 flex justify-center">
         <button
-          className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300"
+          className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 w-full"
           onClick={() => {
             setXTurn(true);
             setPlayAI(true);
