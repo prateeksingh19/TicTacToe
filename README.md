@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Tic-Tac-Toe Game
 
-First, run the development server:
+This is a single player Tic-Tac-Toe game built with Next.js, TypeScript The game allows players to compete against AI or against another player, from the same computer. It includes features such as game state management, leaderboards, and responsive design.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Game Rules](#game-rules)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Play Tic-Tac-Toe against an AI opponent
+- Simple and intuitive user interface
+- Responsive design for various screen sizes
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js
+- npm or yarn
+- A modern web browser
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To get started with the Tic-Tac-Toe game, follow these steps:
 
-## Deploy on Vercel
+1. **Clone the repository:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    git clone https://github.com/prateeksingh19/TicTacToe
+    cd tic-tac-toe
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. **Install dependencies:**
+
+    Ensure you have Node.js and npm installed. Then run:
+
+    ```bash
+    npm install
+    ```
+
+3. **Build the game:**
+
+    ```bash
+    npm build
+    ```
+4. **Start the game:**
+
+    ```bash
+    npm start
+    ```
+
+    The game should now be running on `http://localhost:3000`.
+
+## Usage
+
+To play the game:
+
+1. Open your web browser and navigate to `http://localhost:3000`.
+2. Enter your name on the title screen and click "Start Game" to begin.
+3. Make your moves by clicking on the empty cells in the grid.
+4. The AI opponent will make its move automatically after yours.
+5. The game will announce the winner or a draw when the game ends.
+
+## Game Rules
+
+- The game is played on a 3x3 grid.
+- Players alternate turns, with the player using 'X' going first.
+- The player who places three of their marks in a horizontal, vertical, or diagonal row wins.
+- If all cells are filled and no player has won, the game is a draw.
+
+## Technologies Used
+
+- **Next**: For building the user interface.
+- **TypeScript**: For type safety and better development experience.
+- **Tailwind**: For styling the application.
+- **SQLite**: For storing user's data.
+
