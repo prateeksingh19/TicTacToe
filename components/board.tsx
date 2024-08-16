@@ -35,7 +35,7 @@ export default function Board({ onReset }: BoardProps) {
     }
   }, [userId]);
 
-  // to update the user data by calling updateUserStats function after gameOutcome state has been changed with anything win, loss or draw
+  // to update the user data by calling updateUserStats function after gameOutcome state has been changed with anything win, loss or draw or when clicking reset button
   useEffect(() => {
     if (gameOutcome && userId) {
       const updatedStats = { ...gameStats };

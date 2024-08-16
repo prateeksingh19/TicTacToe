@@ -16,6 +16,7 @@ export type User = {
 export default function Game() {
   const [users, setUsers] = useState<User[]>([]);
 
+  // fetches latest user data from the database to show in the leaderboard table
   const fetchLeaderboardData = () => {
     axios
       .get<User[]>("/api")
@@ -28,6 +29,7 @@ export default function Game() {
       .catch((error) => console.error("Error fetching user data:", error));
   };
 
+  // runs when the app is started
   useEffect(() => {
     fetchLeaderboardData();
   }, []);

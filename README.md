@@ -1,4 +1,3 @@
-
 # Tic-Tac-Toe Game
 
 This is a single player Tic-Tac-Toe game built with Next.js, TypeScript The game allows players to compete against AI or against another player, from the same computer. It includes features such as game state management, leaderboards, and responsive design.
@@ -31,31 +30,32 @@ To get started with the Tic-Tac-Toe game, follow these steps:
 
 1. **Clone the repository:**
 
-    ```bash
-    git clone https://github.com/prateeksingh19/TicTacToe
-    cd tic-tac-toe
-    ```
+   ```bash
+   git clone https://github.com/prateeksingh19/TicTacToe
+   cd tic-tac-toe
+   ```
 
 2. **Install dependencies:**
 
-    Ensure you have Node.js and npm installed. Then run:
+   Ensure you have Node.js and npm installed. Then run:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 3. **Build the game:**
 
-    ```bash
-    npm build
-    ```
+   ```bash
+   npm build
+   ```
+
 4. **Start the game:**
 
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
-    The game should now be running on `http://localhost:3000`.
+   The game should now be running on `http://localhost:3000`.
 
 ## Usage
 
@@ -81,3 +81,38 @@ To play the game:
 - **Tailwind**: For styling the application.
 - **SQLite**: For storing user's data.
 
+## Game Features
+
+- **Game Mode**: Can play vs AI or vs human with a simple click of a button.
+- **Regular Data Update**: After every match ends, the leaderboard gets updated with the new score.
+
+## API Endpoints
+
+Written under app/api/route.ts
+
+- **Get/api**: Gets the data of all users or user with specified id.
+- **Post/api**: Registers a new user in the database.
+- **Put/api**: Updates the score of the user with the specified id.
+
+## Axios Requests
+
+Written under app/lib/actions/
+
+- **getUserData**: Fetches the data of all users or user with specified id from the database.
+- **updateUserStats**: Updates the data of the user with specified id.
+
+## Game Logic
+
+Written under components/gameLogic.tsx
+
+- **winningLogic**: Checks if someone has won the game or not.
+- **playerMove**: Registers the user's move.
+- **randomAIMove**: Registers AI move if playing against AI.
+
+## Game Mode
+
+User can switch between playing against AI or another player by clicking "Play Against AI" button after starting the game.
+
+## Table Creation
+
+"setupDatabase.mjs" runs before every game start to check if "user" table exists in the database or not. If not, it creates a "user" table in the database with name, win, loss, draw fields.
