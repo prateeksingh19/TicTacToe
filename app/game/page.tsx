@@ -32,7 +32,7 @@ export default function Game() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-y-4 lg:gap-x-4 items-center lg:flex-row justify-center bg-[#F7EFE5]">
+    <div className="flex flex-col h-[1174px] gap-y-4 lg:gap-x-20 items-center lg:flex-row justify-center bg-[#F7EFE5]">
       <Suspense fallback={<div>Loading...</div>}>
         <Board onReset={fetchLeaderboardData} />
       </Suspense>
