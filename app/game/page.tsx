@@ -3,6 +3,7 @@ import { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import Board from "@/components/board";
 import Leaderboard from "@/components/leaderboard";
+import AppBar from "@/components/appbar";
 
 export type User = {
   id: number;
@@ -32,11 +33,16 @@ export default function Game() {
   }, []);
 
   return (
-    <div className="flex flex-col h-[1174px] gap-y-4 lg:gap-x-80 items-center lg:flex-row lg:justify-center bg-[#F7EFE5]">
-      <Suspense fallback={<div>Loading...</div>}>
-        <Board onReset={fetchLeaderboardData} />
-      </Suspense>
-      <Leaderboard users={users} />
+    <div className="">
+      <AppBar />
+      <div className="h-screen bg-[#F7EFE5] lg:overflow-hidden">
+        <div className="flex flex-col lg:h-2/3 gap-y-4 lg:gap-x-80 items-center lg:flex-row lg:justify-center ">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Board onReset={fetchLeaderboardData} />
+          </Suspense>
+          <Leaderboard users={users} />
+        </div>
+      </div>
     </div>
   );
 }
