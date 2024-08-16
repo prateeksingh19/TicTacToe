@@ -20,6 +20,7 @@ export default function Board({ onReset }: BoardProps) {
   const searchParams = useSearchParams();
   const userId = searchParams.get("id");
 
+  // to get user win, loss and draw data from backend and update it into the gameStats state
   useEffect(() => {
     if (userId) {
       getUserData(userId)
@@ -34,6 +35,7 @@ export default function Board({ onReset }: BoardProps) {
     }
   }, [userId]);
 
+  // to update the user data by calling updateUserStats function after gameOutcome state has been changed with anything win, loss or draw
   useEffect(() => {
     if (gameOutcome && userId) {
       const updatedStats = { ...gameStats };
@@ -53,6 +55,7 @@ export default function Board({ onReset }: BoardProps) {
     ? "Draw"
     : `Next player: ${xTurn ? "X" : "O"}`;
 
+  // to update the gameStats and gameOutcome state with win,loss or draw once the game is completed
   useEffect(() => {
     if (winner) {
       if (winner === "X") {

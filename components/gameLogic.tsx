@@ -35,7 +35,7 @@ export function playerMove(
     currentBoard[index] = xTurn ? "X" : "O";
 
     setBoard(currentBoard);
-    setLock(true); // Lock the board after a move
+    setLock(true); // Lock the board after a move to avoid multiple clicks in 1 turn
 
     const nextXTurn = !xTurn;
 
